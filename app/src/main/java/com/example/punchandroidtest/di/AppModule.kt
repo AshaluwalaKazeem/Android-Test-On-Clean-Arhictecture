@@ -6,6 +6,8 @@ import com.example.punchandroidtest.common.Constants
 import com.example.punchandroidtest.data.db.MarsDao
 import com.example.punchandroidtest.data.db.MarsDatabase
 import com.example.punchandroidtest.data.remote.MarsServerApi
+import com.example.punchandroidtest.data.repository.MarsRepositoryImpl
+import com.example.punchandroidtest.domain.repository.MarsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,4 +50,10 @@ object AppModule {
         return marsDatabase.marsDao()
     }
 
+
+    @Provides
+    @Singleton
+    fun provideMarsRepository(api: MarsServerApi, marsDao: MarsDao): MarsRepository {
+        return MarsRepositoryImpl(api, marsDao)
+    }
 }

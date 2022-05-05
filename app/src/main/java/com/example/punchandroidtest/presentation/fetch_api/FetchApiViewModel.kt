@@ -28,14 +28,14 @@ constructor(
     private fun fetchAPi() {
         fetchApiUseCase().onEach { result ->
             when(result) {
+                is Resource.Loading -> {
+                    _state.value = FetchApiState(isLoading = true)
+                }
                 is Resource.Success -> {
                     _state.value = FetchApiState(mars = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
                     _state.value = FetchApiState(error = result.message ?: "An unexpected error occurred")
-                }
-                is Resource.Loading -> {
-                    _state.value = FetchApiState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
