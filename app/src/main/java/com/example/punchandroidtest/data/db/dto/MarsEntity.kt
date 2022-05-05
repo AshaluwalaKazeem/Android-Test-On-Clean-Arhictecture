@@ -29,3 +29,12 @@ fun MarsEntity.toMars(): Mars {
         type = type
     )
 }
+
+fun Mars.toMarsEntity() : MarsEntity {
+    return MarsEntity(
+        id = id,
+        imageSource = imageSource,
+        price = price,
+        type = type
+    )
+}
