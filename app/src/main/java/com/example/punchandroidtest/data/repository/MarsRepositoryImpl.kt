@@ -8,6 +8,7 @@ import com.example.punchandroidtest.data.remote.dto.toMars
 import com.example.punchandroidtest.domain.model.Mars
 import com.example.punchandroidtest.domain.repository.MarsRepository
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
@@ -30,6 +31,7 @@ constructor(
         } catch (e: IOException) {
             Resource.Error(message = "Couldn't reach server. Check your internet connection")
         } catch (e: Exception) {
+            Timber.d(e.fillInStackTrace())
             Resource.Error(message = "An unexpected error occurred")
         }
     }
@@ -40,6 +42,7 @@ constructor(
             marsDao.insertMars(marsEntity)
             Resource.Success(mars)
         } catch (e : Exception) {
+            Timber.d(e.fillInStackTrace())
             Resource.Error("An unexpected error occurred")
         }
     }
