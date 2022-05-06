@@ -1,5 +1,6 @@
 package com.example.punchandroidtest.presentation.base_screen.components
 
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,7 +18,7 @@ fun NavigationGraph(navController: NavHostController) {
             NoteSavedScreen()
         }
         composable(BottomNavItem.Push.screen_route) {
-            FetchApiScreen()
+            Text("Push Notification")
         }
     }
 }

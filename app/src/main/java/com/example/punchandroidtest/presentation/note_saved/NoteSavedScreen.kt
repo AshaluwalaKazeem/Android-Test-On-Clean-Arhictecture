@@ -15,7 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.punchandroidtest.presentation.note_saved.components.DragDropList
 import com.example.punchandroidtest.presentation.note_saved.components.NoteSavedListItem
+import timber.log.Timber
 
 
 @Composable
@@ -24,11 +26,14 @@ fun NoteSavedScreen(
 ) {
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()){
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        /*LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.mars) { mars ->
                 NoteSavedListItem(mars)
             }
-        }
+        }*/
+        DragDropList(items = state.mars, onMove = { index1, index2 ->
+            Timber.d("Index1 = $index1 . Index2 = $index2")
+        })
         if(state.error.isNotBlank()) {
             Text(
                 text = state.error,
