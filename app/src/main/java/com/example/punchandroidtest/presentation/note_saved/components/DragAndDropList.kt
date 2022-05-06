@@ -18,6 +18,7 @@ import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.example.punchandroidtest.domain.model.Mars
+import com.example.punchandroidtest.presentation.note_saved.NoteSavedViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,7 +27,8 @@ import timber.log.Timber
 fun DragDropList(
     items: MutableList<Mars>,
     onMove: (Int, Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: NoteSavedViewModel
 ) {
     val scope = rememberCoroutineScope()
 
@@ -54,6 +56,9 @@ fun DragDropList(
                     onDragEnd = {
                         Timber.d("onDragEnd")
                         dragDropListState.onDragInterrupted { startIndex: Int, endIndex: Int ->
+                            viewModel.updateDb(items[endIndex], items[startIndex].id.value)
+                            viewModel.updateDb(items[startIndex], items[endIndex].id.value)
+
                             var startData = items[startIndex]
                             var id2 = items[endIndex].id.value
                             var imageSource2 = items[endIndex].imageSource.value
@@ -64,7 +69,6 @@ fun DragDropList(
                             items[endIndex].imageSource.value = startData.imageSource.value
                             items[endIndex].price.value = startData.price.value
                             items[endIndex].type.value = startData.type.value
-
 
                             items[startIndex].id.value = id2
                             items[startIndex].imageSource.value = imageSource2

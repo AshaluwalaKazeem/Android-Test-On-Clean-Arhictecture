@@ -10,7 +10,7 @@ import com.example.punchandroidtest.domain.model.Mars
 data class MarsEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    val id: String,
+    var id: String,
 
     @ColumnInfo(name = "image_source")
     val imageSource: String,

@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,7 +14,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.punchandroidtest.presentation.note_saved.components.DragDropList
-import com.example.punchandroidtest.presentation.note_saved.components.NoteSavedListItem
 import timber.log.Timber
 
 
@@ -32,9 +29,13 @@ fun NoteSavedScreen(
             }
         }*/
         if(state.mars.isNotEmpty()){
-            DragDropList(items = state.mars, onMove = { index1, index2 ->
-                Timber.d("Index1 = $index1 . Index2 = $index2")
-            })
+            DragDropList(
+                items = state.mars,
+                onMove = { index1, index2 ->
+                    Timber.d("Index1 = $index1 . Index2 = $index2")
+                },
+                viewModel = viewModel
+            )
         }
         if(state.error.isNotBlank()) {
             Text(

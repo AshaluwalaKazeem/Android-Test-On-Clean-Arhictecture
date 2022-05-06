@@ -1,9 +1,6 @@
 package com.example.punchandroidtest.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.punchandroidtest.data.db.dto.MarsEntity
 
 @Dao
@@ -16,7 +13,9 @@ interface MarsDao {
     suspend fun get(): List<MarsEntity>
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAll(marsList: List<MarsEntity>)
 
+    @Update
+    suspend fun updateDb(marsEntity: MarsEntity)
 }

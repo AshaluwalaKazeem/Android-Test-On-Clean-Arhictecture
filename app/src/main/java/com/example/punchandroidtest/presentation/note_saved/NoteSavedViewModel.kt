@@ -9,6 +9,7 @@ import com.example.punchandroidtest.domain.model.Mars
 import com.example.punchandroidtest.domain.use_case.fetch_api.FetchApiUseCase
 import com.example.punchandroidtest.domain.use_case.fetch_db.FetchNoteFromDbUseCase
 import com.example.punchandroidtest.domain.use_case.save_note.SaveNoteToDbUseCase
+import com.example.punchandroidtest.domain.use_case.update_db.UpdateDbUseCase
 import com.example.punchandroidtest.presentation.fetch_api.FetchApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class NoteSavedViewModel
 @Inject
 constructor(
-    private val fetchNoteFromDbUseCase: FetchNoteFromDbUseCase
+    private val fetchNoteFromDbUseCase: FetchNoteFromDbUseCase,
+    private val updateDbUseCase: UpdateDbUseCase
 ) : ViewModel()
 {
     private val _state = mutableStateOf<NoteSavedState>(NoteSavedState())
@@ -46,5 +48,10 @@ constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun updateDb(mars: Mars, id: String) {
+        updateDbUseCase(mars, id)
+            .onEach {
 
+            }.launchIn(viewModelScope)
+    }
 }

@@ -2,6 +2,7 @@ package com.example.punchandroidtest.data.repository
 
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.MarsDao
+import com.example.punchandroidtest.data.db.dto.MarsEntity
 import com.example.punchandroidtest.data.db.dto.toMars
 import com.example.punchandroidtest.data.db.dto.toMarsEntity
 import com.example.punchandroidtest.data.remote.MarsServerApi
@@ -55,5 +56,9 @@ constructor(
             Timber.d(e.fillInStackTrace())
             Resource.Error("An unexpected error occurred")
         }
+    }
+
+    override suspend fun updateDb(marsEntity: MarsEntity) {
+        marsDao.updateDb(marsEntity)
     }
 }
