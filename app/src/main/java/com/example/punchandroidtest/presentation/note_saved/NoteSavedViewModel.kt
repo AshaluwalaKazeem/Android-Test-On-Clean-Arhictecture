@@ -1,4 +1,4 @@
-package com.example.punchandroidtest.presentation.fetch_api
+package com.example.punchandroidtest.presentation.note_saved
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -8,42 +8,38 @@ import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.domain.use_case.fetch_api.FetchApiUseCase
 import com.example.punchandroidtest.domain.use_case.fetch_db.FetchNoteFromDbUseCase
 import com.example.punchandroidtest.domain.use_case.save_note.SaveNoteToDbUseCase
+import com.example.punchandroidtest.presentation.fetch_api.FetchApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 import javax.inject.Inject
 
+
 @HiltViewModel
-class FetchApiViewModel
+class NoteSavedViewModel
 @Inject
 constructor(
-    private val fetchApiUseCase: FetchApiUseCase,
-    private val saveNoteToDbUseCase: SaveNoteToDbUseCase
+    private val fetchNoteFromDbUseCase: FetchNoteFromDbUseCase
 ) : ViewModel()
 {
-    private val _state = mutableStateOf<FetchApiState>(FetchApiState())
-    val state: State<FetchApiState> = _state
+    private val _state = mutableStateOf<NoteSavedState>(NoteSavedState())
+    val state: State<NoteSavedState> = _state
 
     init {
-        fetchAPi()
+        fetchDb()
     }
 
-    private fun fetchAPi() {
-        fetchApiUseCase().onEach { result ->
+    private fun fetchDb() {
+        fetchNoteFromDbUseCase().onEach { result ->
             when(result) {
                 is Resource.Loading -> {
-                    _state.value = FetchApiState(isLoading = true)
+                    _state.value = NoteSavedState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    val list = FetchApiState(mars = result.data ?: emptyList())
-                    Timber.d("List size is ${list.mars.size}")
-
-                    saveNoteToDbUseCase(list.mars)
-                    _state.value = list
+                    _state.value = NoteSavedState(mars = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = FetchApiState(error = result.message ?: "An unexpected error occurred")
+                    _state.value = NoteSavedState(error = result.message ?: "An unexpected error occurred")
                 }
             }
         }.launchIn(viewModelScope)

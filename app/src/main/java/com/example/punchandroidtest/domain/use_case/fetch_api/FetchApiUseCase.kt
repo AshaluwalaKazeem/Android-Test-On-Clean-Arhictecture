@@ -17,7 +17,7 @@ constructor(
     operator fun invoke(): Flow<Resource<List<Mars>>> = flow {
         emit(Resource.Loading())
         // Fetch data
-        val resource = marsRepository.get()
+        val resource = marsRepository.fetch()
         emit(resource)
     }
 }

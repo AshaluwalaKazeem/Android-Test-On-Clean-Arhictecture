@@ -5,7 +5,9 @@ import com.example.punchandroidtest.domain.model.Mars
 
 interface MarsRepository {
 
-    suspend fun get() : Resource<List<Mars>>
+    suspend fun fetch() : Resource<List<Mars>>
 
-    suspend fun save(mars: Mars): Resource<Mars>
+    suspend fun save(mars: List<Mars>): Resource<List<Mars>>
+
+    suspend fun loadFromDb() : Resource<List<Mars>>
 }

@@ -2,6 +2,7 @@ package com.example.punchandroidtest.data.repository
 
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.MarsDao
+import com.example.punchandroidtest.data.db.dto.toMars
 import com.example.punchandroidtest.data.db.dto.toMarsEntity
 import com.example.punchandroidtest.data.remote.MarsServerApi
 import com.example.punchandroidtest.data.remote.dto.toMars
@@ -21,7 +22,7 @@ constructor(
     private val marsDao: MarsDao
 ) : MarsRepository
 {
-    override suspend fun get(): Resource<List<Mars>> {
+    override suspend fun fetch(): Resource<List<Mars>> {
         return try {
             val marsBlogs = marsServerApi.getMars()
             val marsList = marsBlogs.map { it.toMars() }
@@ -36,12 +37,21 @@ constructor(
         }
     }
 
-    override suspend fun save(mars: Mars): Resource<Mars> {
-        val marsEntity = mars.toMarsEntity()
+    override suspend fun save(mars: List<Mars>): Resource<List<Mars>> {
+        val marsEntity = mars.map { it.toMarsEntity()  }
         return try{
-            marsDao.insertMars(marsEntity)
+            marsDao.insertAll(marsEntity)
             Resource.Success(mars)
         } catch (e : Exception) {
+            Timber.e(e.fillInStackTrace())
+            Resource.Error("An unexpected error occurred")
+        }
+    }
+
+    override suspend fun loadFromDb(): Resource<List<Mars>> {
+        return try {
+            Resource.Success(marsDao.get().map { it.toMars() })
+        } catch (e: Exception) {
             Timber.d(e.fillInStackTrace())
             Resource.Error("An unexpected error occurred")
         }

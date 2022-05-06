@@ -14,4 +14,9 @@ interface MarsDao {
 
     @Query("SELECT * FROM mars")
     suspend fun get(): List<MarsEntity>
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(marsList: List<MarsEntity>)
+
 }
