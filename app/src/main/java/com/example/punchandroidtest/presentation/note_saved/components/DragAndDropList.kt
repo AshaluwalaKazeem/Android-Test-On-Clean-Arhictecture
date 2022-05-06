@@ -71,7 +71,6 @@ fun DragDropList(
                                 translationY = offsetOrNull ?: 0f
                             }
                     }
-                    .background(Color.White, shape = RoundedCornerShape(4.dp))
                     .fillMaxWidth()
             ) { NoteSavedListItem(item) }
         }
