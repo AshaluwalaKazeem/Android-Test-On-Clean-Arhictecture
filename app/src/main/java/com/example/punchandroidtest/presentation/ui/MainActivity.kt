@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.example.punchandroidtest.presentation.base_screen.BaseScreen
 import com.example.punchandroidtest.presentation.fetch_api.FetchApiScreen
 import com.example.punchandroidtest.presentation.ui.theme.PunchAndroidTestTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    FetchApiScreen()
+                    BaseScreen()
                 }
             }
         }
