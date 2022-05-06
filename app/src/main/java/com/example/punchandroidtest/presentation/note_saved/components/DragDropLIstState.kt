@@ -8,10 +8,12 @@ import androidx.compose.ui.geometry.Offset
 import com.example.punchandroidtest.common.getVisibleItemInfoFor
 import com.example.punchandroidtest.common.offsetEnd
 import kotlinx.coroutines.Job
+import timber.log.Timber
+
 @Composable
 fun rememberDragDropListState(
     lazyListState: LazyListState = rememberLazyListState(),
-    onMove: (Int, Int) -> Unit,
+    onMove: (Int, Int) -> Unit = { i1, i2 -> },
 ): DragDropListState {
     return remember { DragDropListState(lazyListState = lazyListState, onMove = onMove) }
 }
@@ -42,19 +44,24 @@ class DragDropListState(
 
     var overscrollJob by mutableStateOf<Job?>(null)
 
+    var dragOverIndex by mutableStateOf<Int?>(null)
+
     fun onDragStart(offset: Offset) {
         lazyListState.layoutInfo.visibleItemsInfo
             .firstOrNull { item -> offset.y.toInt() in item.offset..(item.offset + item.size) }
             ?.also {
                 currentIndexOfDraggedItem = it.index
+                Timber.d("Drag Start Item index = $currentIndexOfDraggedItem")
                 initiallyDraggedElement = it
             }
     }
 
-    fun onDragInterrupted() {
+    fun onDragInterrupted(onEvent: (startIndex: Int, endIndex: Int) -> Unit) {
         draggedDistance = 0f
+        if(currentIndexOfDraggedItem != null && dragOverIndex != null) onEvent(currentIndexOfDraggedItem!!, dragOverIndex!!)
         currentIndexOfDraggedItem = null
         initiallyDraggedElement = null
+        dragOverIndex = null
         overscrollJob?.cancel()
     }
 
@@ -77,7 +84,8 @@ class DragDropListState(
                     }
                     ?.also { item ->
                         currentIndexOfDraggedItem?.let { current -> onMove.invoke(current, item.index) }
-                        currentIndexOfDraggedItem = item.index
+                        dragOverIndex = item.index
+//                        currentIndexOfDraggedItem = item.index
                     }
             }
         }

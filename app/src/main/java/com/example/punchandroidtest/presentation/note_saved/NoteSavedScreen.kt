@@ -31,9 +31,11 @@ fun NoteSavedScreen(
                 NoteSavedListItem(mars)
             }
         }*/
-        DragDropList(items = state.mars, onMove = { index1, index2 ->
-            Timber.d("Index1 = $index1 . Index2 = $index2")
-        })
+        if(state.mars.isNotEmpty()){
+            DragDropList(items = state.mars, onMove = { index1, index2 ->
+                Timber.d("Index1 = $index1 . Index2 = $index2")
+            })
+        }
         if(state.error.isNotBlank()) {
             Text(
                 text = state.error,

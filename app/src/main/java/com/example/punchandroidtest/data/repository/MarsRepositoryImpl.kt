@@ -48,9 +48,9 @@ constructor(
         }
     }
 
-    override suspend fun loadFromDb(): Resource<List<Mars>> {
+    override suspend fun loadFromDb(): Resource<MutableList<Mars>> {
         return try {
-            Resource.Success(marsDao.get().map { it.toMars() })
+            Resource.Success(marsDao.get().map { it.toMars() }.toMutableList())
         } catch (e: Exception) {
             Timber.d(e.fillInStackTrace())
             Resource.Error("An unexpected error occurred")

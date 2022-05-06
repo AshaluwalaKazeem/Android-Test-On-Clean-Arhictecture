@@ -20,14 +20,14 @@ import androidx.compose.ui.unit.dp
 import com.example.punchandroidtest.domain.model.Mars
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 fun DragDropList(
-    items: List<Mars>,
+    items: MutableList<Mars>,
     onMove: (Int, Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     val scope = rememberCoroutineScope()
 
     var overscrollJob by remember { mutableStateOf<Job?>(null) }
@@ -51,8 +51,33 @@ fun DragDropList(
                             ?: run { overscrollJob?.cancel() }
                     },
                     onDragStart = { offset -> dragDropListState.onDragStart(offset) },
-                    onDragEnd = { dragDropListState.onDragInterrupted() },
-                    onDragCancel = { dragDropListState.onDragInterrupted() }
+                    onDragEnd = {
+                        Timber.d("onDragEnd")
+                        dragDropListState.onDragInterrupted { startIndex: Int, endIndex: Int ->
+                            var startData = items[startIndex]
+                            var id2 = items[endIndex].id.value
+                            var imageSource2 = items[endIndex].imageSource.value
+                            var price2 = items[endIndex].price.value
+                            var type2 = items[endIndex].type.value
+
+                            items[endIndex].id.value = startData.id.value
+                            items[endIndex].imageSource.value = startData.imageSource.value
+                            items[endIndex].price.value = startData.price.value
+                            items[endIndex].type.value = startData.type.value
+
+
+                            items[startIndex].id.value = id2
+                            items[startIndex].imageSource.value = imageSource2
+                            items[startIndex].price.value = price2
+                            items[startIndex].type.value = type2
+                        }
+                    },
+                    onDragCancel = {
+                        Timber.d("onDragCancel")
+                        dragDropListState.onDragInterrupted{ startIndex, endIndex ->
+
+                        }
+                    }
                 )
             },
         state = dragDropListState.lazyListState

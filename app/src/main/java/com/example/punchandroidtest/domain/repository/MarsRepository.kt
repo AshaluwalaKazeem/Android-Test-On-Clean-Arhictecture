@@ -9,5 +9,5 @@ interface MarsRepository {
 
     suspend fun save(mars: List<Mars>): Resource<List<Mars>>
 
-    suspend fun loadFromDb() : Resource<List<Mars>>
+    suspend fun loadFromDb() : Resource<MutableList<Mars>>
 }

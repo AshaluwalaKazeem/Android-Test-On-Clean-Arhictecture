@@ -43,7 +43,7 @@ fun NoteSavedListItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         var painter = rememberImagePainter(
-            data = mars.imageSource
+            data = mars.imageSource.value
         )
         if(painter.state is ImagePainter.State.Error) {
             painter = rememberImagePainter(
@@ -77,13 +77,13 @@ fun NoteSavedListItem(
                             fontWeight = FontWeight.W900,
                         )
                     ) {
-                        append(mars.price.formatNumber())
+                        append(mars.price.value.formatNumber())
                     }
                 },
             )
 
             Text(
-                text = mars.type,
+                text = mars.type.value,
                 color = Color.Green,
                 fontStyle = FontStyle.Italic,
                 textAlign = TextAlign.End,

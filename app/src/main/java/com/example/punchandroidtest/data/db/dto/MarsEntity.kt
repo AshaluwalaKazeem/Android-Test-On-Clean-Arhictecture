@@ -1,5 +1,6 @@
 package com.example.punchandroidtest.data.db.dto
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -23,18 +24,18 @@ data class MarsEntity(
 
 fun MarsEntity.toMars(): Mars {
     return Mars(
-        id = id,
-        imageSource = imageSource,
-        price = price,
-        type = type
+        id = mutableStateOf(id),
+        imageSource = mutableStateOf(imageSource),
+        price = mutableStateOf(price),
+        type = mutableStateOf(type)
     )
 }
 
 fun Mars.toMarsEntity() : MarsEntity {
     return MarsEntity(
-        id = id,
-        imageSource = imageSource,
-        price = price,
-        type = type
+        id = id.value,
+        imageSource = imageSource.value,
+        price = price.value,
+        type = type.value
     )
 }

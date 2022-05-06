@@ -14,7 +14,7 @@ constructor(
     private val marsRepository: MarsRepository
 )
 {
-    operator fun invoke(): Flow<Resource<List<Mars>>> = flow {
+    operator fun invoke(): Flow<Resource<MutableList<Mars>>> = flow {
         emit(Resource.Loading())
         // Fetch data from local database
         val resource = marsRepository.loadFromDb()

@@ -9,7 +9,7 @@ import com.example.punchandroidtest.data.db.dto.MarsEntity
 @Dao
 interface MarsDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertMars(marsEntity: MarsEntity): Long
 
     @Query("SELECT * FROM mars")

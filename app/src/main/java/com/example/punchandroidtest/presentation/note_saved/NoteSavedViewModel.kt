@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.punchandroidtest.common.Resource
+import com.example.punchandroidtest.domain.model.Mars
 import com.example.punchandroidtest.domain.use_case.fetch_api.FetchApiUseCase
 import com.example.punchandroidtest.domain.use_case.fetch_db.FetchNoteFromDbUseCase
 import com.example.punchandroidtest.domain.use_case.save_note.SaveNoteToDbUseCase
@@ -36,7 +37,7 @@ constructor(
                     _state.value = NoteSavedState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    _state.value = NoteSavedState(mars = result.data ?: emptyList())
+                    _state.value = NoteSavedState(mars = result.data ?: mutableListOf<Mars>())
                 }
                 is Resource.Error -> {
                     _state.value = NoteSavedState(error = result.message ?: "An unexpected error occurred")
@@ -44,5 +45,6 @@ constructor(
             }
         }.launchIn(viewModelScope)
     }
+
 
 }

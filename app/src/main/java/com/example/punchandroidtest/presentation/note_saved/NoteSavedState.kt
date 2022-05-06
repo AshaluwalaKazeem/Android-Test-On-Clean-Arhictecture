@@ -4,6 +4,6 @@ import com.example.punchandroidtest.domain.model.Mars
 
 data class NoteSavedState (
     val isLoading: Boolean = false,
-    val mars: List<Mars> = emptyList(),
+    val mars: MutableList<Mars> = mutableListOf(),
     val error: String = ""
 )

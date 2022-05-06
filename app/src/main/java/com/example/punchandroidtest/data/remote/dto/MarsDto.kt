@@ -1,6 +1,7 @@
 package com.example.punchandroidtest.data.remote.dto
 
 
+import androidx.compose.runtime.mutableStateOf
 import com.example.punchandroidtest.data.db.dto.MarsEntity
 import com.example.punchandroidtest.domain.model.Mars
 import com.google.gson.annotations.SerializedName
@@ -18,10 +19,10 @@ data class MarsDto(
 
 fun MarsDto.toMars() : Mars {
     return Mars(
-        id = id,
-        imageSource = imgSrc,
-        price = price,
-        type = type
+        id = mutableStateOf(id),
+        imageSource = mutableStateOf(imgSrc),
+        price = mutableStateOf(price),
+        type = mutableStateOf(type)
     )
 }
 
