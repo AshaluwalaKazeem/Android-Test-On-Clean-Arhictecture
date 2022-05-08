@@ -25,7 +25,7 @@
         </activity>
 
         <service
-            android:name=".data.service.MarsFirebaseService"
+            android:name=".data.firebase.service.MarsFirebaseService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

@@ -1,5 +1,6 @@
 package com.example.punchandroidtest.data.repository
 
+import android.net.Uri
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.MarsDao
 import com.example.punchandroidtest.data.db.dto.MarsEntity
@@ -12,11 +13,21 @@ import com.example.punchandroidtest.data.remote.dto.FirebasePushNotificationResp
 import com.example.punchandroidtest.data.remote.dto.toMars
 import com.example.punchandroidtest.domain.model.Mars
 import com.example.punchandroidtest.domain.repository.MarsRepository
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.HttpException
 import timber.log.Timber
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
-import java.lang.Exception
+import java.io.InputStream
+import java.net.URI
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.random.Random
 
 
 class MarsRepositoryImpl
@@ -84,4 +95,79 @@ constructor(
             Resource.Error(message = "An unexpected error occurred")
         }
     }
+
+    override suspend fun uploadImage(file: Uri): Resource<Uri> =
+        suspendCancellableCoroutine { continuation ->
+            try {
+                val storage = FirebaseStorage.getInstance()
+
+                val storageRef = storage.reference
+                val imageRef = storageRef.child("${Random.nextInt()}.jpg")
+                val uploadTask: UploadTask = imageRef.putFile(file)
+                /*uploadTask.addOnFailureListener(OnFailureListener {
+                    // Handle unsuccessful uploads
+                    if (continuation.isActive) {
+                        continuation.resume(
+                            Resource.Error(message = it.localizedMessage ?: "An unexpected error occurred")
+                        )
+                    }
+                }).addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot?> {
+
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+
+                })*/
+                val urlTask = uploadTask.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        if (continuation.isActive) {
+                            task.exception?.let {
+                                continuation.resume(
+                                    Resource.Error(
+                                        message = it.localizedMessage
+                                            ?: "An unexpected error occurred"
+                                    )
+                                )
+                            }
+                            continuation.resume(
+                                Resource.Error(message = "An unexpected error occurred")
+                            )
+                        }
+                    }
+                    imageRef.downloadUrl
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        if (continuation.isActive) {
+                            continuation.resume(
+                                Resource.Success(downloadUri)
+                            )
+                        }
+                    } else {
+                        // Handle failures
+                        // ...
+                        if (continuation.isActive) {
+                            task.exception?.let {
+                                continuation.resume(
+                                    Resource.Error(
+                                        message = it.localizedMessage
+                                            ?: "An unexpected error occurred"
+                                    )
+                                )
+                            }
+                            continuation.resume(
+                                Resource.Error(message = "An unexpected error occurred")
+                            )
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.d(e.fillInStackTrace())
+                if (continuation.isActive) {
+                    continuation.resume(
+                        Resource.Error(
+                            message = e.localizedMessage ?: "An unexpected error occurred"
+                        )
+                    )
+                }
+            }
+        }
 }

@@ -1,5 +1,6 @@
 package com.example.punchandroidtest.domain.repository
 
+import android.net.Uri
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.dto.MarsEntity
 import com.example.punchandroidtest.data.remote.dto.FirebasePushNotificationDto
@@ -17,4 +18,6 @@ interface MarsRepository {
     suspend fun updateDb(marsEntity: MarsEntity)
 
     suspend fun sendPushNotification(bearerToken: String, firebasePushNotificationDto: FirebasePushNotificationDto): Resource<FirebasePushNotificationResponse>
+
+    suspend fun uploadImage(file: Uri) : Resource<Uri>
 }

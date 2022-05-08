@@ -1,4 +1,4 @@
-package com.example.punchandroidtest.data.service
+package com.example.punchandroidtest.data.firebase.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,7 +10,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.TextUtils
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.punchandroidtest.R
 import com.example.punchandroidtest.common.Constants
@@ -22,7 +21,6 @@ import com.squareup.picasso.Target
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.lang.Exception
 import kotlin.random.Random
 
