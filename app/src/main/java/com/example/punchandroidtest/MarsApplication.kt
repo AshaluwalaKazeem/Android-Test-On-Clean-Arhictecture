@@ -4,10 +4,13 @@ import android.R
 import android.app.Application
 import android.util.Log
 import android.widget.Toast
+import coil.ImageLoader
 import com.example.punchandroidtest.common.Constants
+import com.example.punchandroidtest.common.ResponseHeaderInterceptor
 import com.example.punchandroidtest.common.timber.ReleaseTree
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
+import okhttp3.OkHttpClient
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
 
@@ -30,5 +33,14 @@ class MarsApplication : Application(){
                 }
                 Timber.d("Successfully subscribed to ${Constants.TOPIC}")
             }
+
+        val imageLoader = ImageLoader.Builder(applicationContext)
+            .okHttpClient {
+                OkHttpClient.Builder()
+                    // This header will be added to every image request.
+                    .addNetworkInterceptor(ResponseHeaderInterceptor("Cache-Control", "max-age=31536000,public"))
+                    .build()
+            }
+            .build()
     }
 }
