@@ -1,8 +1,11 @@
 package com.example.punchandroidtest
 
+import android.R
 import android.app.Application
 import android.util.Log
+import android.widget.Toast
 import com.example.punchandroidtest.common.timber.ReleaseTree
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
@@ -19,5 +22,12 @@ class MarsApplication : Application(){
         } else {
             plant(ReleaseTree())
         }
+        FirebaseMessaging.getInstance().subscribeToTopic("PUSH_NOTIFICATION")
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Timber.d("Push notification topic subscription failed")
+                }
+                Timber.d("Successfully subscribed to PUSH_NOTIFICATION")
+            }
     }
 }
