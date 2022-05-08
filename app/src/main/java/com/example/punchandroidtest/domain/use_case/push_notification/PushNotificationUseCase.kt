@@ -15,13 +15,16 @@ class PushNotificationUseCase
 @Inject
 constructor(
     private val marsRepository: MarsRepository
-)
-{
+) {
 
-    operator fun invoke(pushNotification: PushNotification): Flow<Resource<FirebasePushNotificationResponse>> = flow {
-        emit(Resource.Loading())
-        // Push Notification
-        val resource = marsRepository.sendPushNotification(bearerToken = Constants.FIREBASE_BEARER_TOKEN, firebasePushNotificationDto = pushNotification.toFirebasePushNotificationDto(topic = Constants.TOPIC))
-        emit(resource)
-    }
+    operator fun invoke(pushNotification: PushNotification): Flow<Resource<FirebasePushNotificationResponse>> =
+        flow {
+            emit(Resource.Loading())
+            // Push Notification
+            val resource = marsRepository.sendPushNotification(
+                bearerToken = Constants.FIREBASE_BEARER_TOKEN,
+                firebasePushNotificationDto = pushNotification.toFirebasePushNotificationDto(topic = Constants.TOPIC)
+            )
+            emit(resource)
+        }
 }

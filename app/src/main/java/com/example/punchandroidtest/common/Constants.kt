@@ -6,5 +6,6 @@ object Constants {
     const val CHANNEL_ID = "MarsChannelId"
     const val CHANNEL_NAME = "Punch Android Test"
     const val TOPIC = "PUSH_NOTIFICATION"
-    const val FIREBASE_BEARER_TOKEN = "Bearer AAAANzFUOzk:APA91bE35XrxomWjzjFFVtfbAKNw-utUhI4KyRXx5GzBui_MQdwgLuEq8y5ADG8B0Xq7_sEKHT-lCBcJUR2LdAnUQu7F-15kSZZKLTlVUgFYHauzwtAn_9raxHMw0IBG0Cc-mu12GCY2"
+    const val FIREBASE_BEARER_TOKEN =
+        "Bearer AAAANzFUOzk:APA91bE35XrxomWjzjFFVtfbAKNw-utUhI4KyRXx5GzBui_MQdwgLuEq8y5ADG8B0Xq7_sEKHT-lCBcJUR2LdAnUQu7F-15kSZZKLTlVUgFYHauzwtAn_9raxHMw0IBG0Cc-mu12GCY2"
 }

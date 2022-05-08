@@ -25,8 +25,7 @@ constructor(
     private val marsServerApi: MarsServerApi,
     private val marsDao: MarsDao,
     private val firebaseApi: FirebaseApi
-) : MarsRepository
-{
+) : MarsRepository {
     override suspend fun fetch(): Resource<List<Mars>> {
         return try {
             val marsBlogs = marsServerApi.getMars()
@@ -43,11 +42,11 @@ constructor(
     }
 
     override suspend fun save(mars: List<Mars>): Resource<List<Mars>> {
-        val marsEntity = mars.map { it.toMarsEntity()  }
-        return try{
+        val marsEntity = mars.map { it.toMarsEntity() }
+        return try {
             marsDao.insertAll(marsEntity)
             Resource.Success(mars)
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Timber.e(e.fillInStackTrace())
             Resource.Error("An unexpected error occurred")
         }
@@ -71,7 +70,10 @@ constructor(
         firebasePushNotificationDto: FirebasePushNotificationDto
     ): Resource<FirebasePushNotificationResponse> {
         return try {
-            val response = firebaseApi.sendPushNotification(bearerToken = bearerToken, requestBody = firebasePushNotificationDto)
+            val response = firebaseApi.sendPushNotification(
+                bearerToken = bearerToken,
+                requestBody = firebasePushNotificationDto
+            )
             Resource.Success(response)
         } catch (e: HttpException) {
             Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred")

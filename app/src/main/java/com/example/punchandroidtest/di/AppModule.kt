@@ -24,7 +24,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMarsApi() : MarsServerApi {
+    fun provideMarsApi(): MarsServerApi {
         return Retrofit.Builder()
             .baseUrl(Constants.MARS_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -34,7 +34,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseApi() : FirebaseApi {
+    fun provideFirebaseApi(): FirebaseApi {
         return Retrofit.Builder()
             .baseUrl(Constants.FIREBASE_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -44,7 +44,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesMarsDb(@ApplicationContext context: Context) : MarsDatabase {
+    fun providesMarsDb(@ApplicationContext context: Context): MarsDatabase {
         return Room.databaseBuilder(
             context,
             MarsDatabase::class.java,
@@ -64,7 +64,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMarsRepository(api: MarsServerApi, marsDao: MarsDao, firebaseApi: FirebaseApi): MarsRepository {
+    fun provideMarsRepository(
+        api: MarsServerApi,
+        marsDao: MarsDao,
+        firebaseApi: FirebaseApi
+    ): MarsRepository {
         return MarsRepositoryImpl(api, marsDao, firebaseApi)
     }
 }

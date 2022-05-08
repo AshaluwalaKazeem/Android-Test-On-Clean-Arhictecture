@@ -11,8 +11,7 @@ class FetchApiUseCase
 @Inject
 constructor(
     private val marsRepository: MarsRepository
-)
-{
+) {
 
     operator fun invoke(): Flow<Resource<List<Mars>>> = flow {
         emit(Resource.Loading())
