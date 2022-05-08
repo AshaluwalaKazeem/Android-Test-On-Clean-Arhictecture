@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.punchandroidtest.presentation.fetch_api.FetchApiScreen
 import com.example.punchandroidtest.presentation.note_saved.NoteSavedScreen
+import com.example.punchandroidtest.presentation.push_notification.PushNotificationScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
@@ -18,7 +19,7 @@ fun NavigationGraph(navController: NavHostController) {
             NoteSavedScreen()
         }
         composable(BottomNavItem.Push.screen_route) {
-            Text("Push Notification")
+            PushNotificationScreen()
         }
     }
 }

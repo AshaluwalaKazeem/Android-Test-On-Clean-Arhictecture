@@ -23,11 +23,6 @@ fun NoteSavedScreen(
 ) {
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()){
-        /*LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.mars) { mars ->
-                NoteSavedListItem(mars)
-            }
-        }*/
         if(state.mars.isNotEmpty()){
             DragDropList(
                 items = state.mars,
