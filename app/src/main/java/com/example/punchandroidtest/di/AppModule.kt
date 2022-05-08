@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.punchandroidtest.common.Constants
 import com.example.punchandroidtest.data.db.MarsDao
 import com.example.punchandroidtest.data.db.MarsDatabase
+import com.example.punchandroidtest.data.remote.FirebaseApi
 import com.example.punchandroidtest.data.remote.MarsServerApi
 import com.example.punchandroidtest.data.repository.MarsRepositoryImpl
 import com.example.punchandroidtest.domain.repository.MarsRepository
@@ -25,10 +26,20 @@ object AppModule {
     @Singleton
     fun provideMarsApi() : MarsServerApi {
         return Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(Constants.MARS_API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MarsServerApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseApi() : FirebaseApi {
+        return Retrofit.Builder()
+            .baseUrl(Constants.FIREBASE_API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(FirebaseApi::class.java)
     }
 
     @Provides
@@ -53,7 +64,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMarsRepository(api: MarsServerApi, marsDao: MarsDao): MarsRepository {
-        return MarsRepositoryImpl(api, marsDao)
+    fun provideMarsRepository(api: MarsServerApi, marsDao: MarsDao, firebaseApi: FirebaseApi): MarsRepository {
+        return MarsRepositoryImpl(api, marsDao, firebaseApi)
     }
 }

@@ -2,6 +2,8 @@ package com.example.punchandroidtest.domain.repository
 
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.dto.MarsEntity
+import com.example.punchandroidtest.data.remote.dto.FirebasePushNotificationDto
+import com.example.punchandroidtest.data.remote.dto.FirebasePushNotificationResponse
 import com.example.punchandroidtest.domain.model.Mars
 
 interface MarsRepository {
@@ -13,4 +15,6 @@ interface MarsRepository {
     suspend fun loadFromDb() : Resource<MutableList<Mars>>
 
     suspend fun updateDb(marsEntity: MarsEntity)
+
+    suspend fun sendPushNotification(bearerToken: String, firebasePushNotificationDto: FirebasePushNotificationDto): Resource<FirebasePushNotificationResponse>
 }
