@@ -1,5 +1,6 @@
 package com.example.punchandroidtest.domain.use_case.fetch_db
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.domain.model.Mars
 import com.example.punchandroidtest.domain.repository.MarsRepository
@@ -14,7 +15,7 @@ constructor(
     private val marsRepository: MarsRepository
 )
 {
-    operator fun invoke(): Flow<Resource<MutableList<Mars>>> = flow {
+    operator fun invoke(): Flow<Resource<SnapshotStateList<Mars>>> = flow {
         emit(Resource.Loading())
         // Fetch data from local database
         val resource = marsRepository.loadFromDb()

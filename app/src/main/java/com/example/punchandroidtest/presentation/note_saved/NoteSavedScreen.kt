@@ -8,14 +8,15 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.punchandroidtest.presentation.note_saved.components.DragDropList
+import com.example.punchandroidtest.presentation.note_saved.components.move
 import timber.log.Timber
-
 
 @Composable
 fun NoteSavedScreen(
@@ -24,13 +25,9 @@ fun NoteSavedScreen(
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()){
         if(state.mars.isNotEmpty()){
-            DragDropList(
-                items = state.mars,
-                onMove = { index1, index2 ->
-                    Timber.d("Index1 = $index1 . Index2 = $index2")
-                },
-                viewModel = viewModel
-            )
+            DragDropList(mars = state.mars, onMove = { fromIndex, toIndex ->
+                state.mars.move(fromIndex, toIndex)
+            }, viewModel = viewModel)
         }
         if(state.error.isNotBlank()) {
             Text(

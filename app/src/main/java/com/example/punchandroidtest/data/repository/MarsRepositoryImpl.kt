@@ -1,6 +1,8 @@
 package com.example.punchandroidtest.data.repository
 
 import android.net.Uri
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.MarsDao
 import com.example.punchandroidtest.data.db.dto.MarsEntity
@@ -63,17 +65,17 @@ constructor(
         }
     }
 
-    override suspend fun loadFromDb(): Resource<MutableList<Mars>> {
+    override suspend fun loadFromDb(): Resource<SnapshotStateList<Mars>> {
         return try {
-            Resource.Success(marsDao.get().map { it.toMars() }.toMutableList())
+            Resource.Success(marsDao.get().map { it.toMars() }.toMutableStateList())
         } catch (e: Exception) {
             Timber.d(e.fillInStackTrace())
             Resource.Error("An unexpected error occurred")
         }
     }
 
-    override suspend fun updateDb(marsEntity: MarsEntity) {
-        marsDao.updateDb(marsEntity)
+    override suspend fun updateDb(marsEntities: List<MarsEntity>) {
+        marsDao.updateDb(marsEntities)
     }
 
     override suspend fun sendPushNotification(

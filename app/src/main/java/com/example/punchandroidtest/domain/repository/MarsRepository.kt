@@ -1,6 +1,7 @@
 package com.example.punchandroidtest.domain.repository
 
 import android.net.Uri
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.punchandroidtest.common.Resource
 import com.example.punchandroidtest.data.db.dto.MarsEntity
 import com.example.punchandroidtest.data.remote.dto.FirebasePushNotificationDto
@@ -13,9 +14,9 @@ interface MarsRepository {
 
     suspend fun save(mars: List<Mars>): Resource<List<Mars>>
 
-    suspend fun loadFromDb() : Resource<MutableList<Mars>>
+    suspend fun loadFromDb() : Resource<SnapshotStateList<Mars>>
 
-    suspend fun updateDb(marsEntity: MarsEntity)
+    suspend fun updateDb(marsEntities: List<MarsEntity>)
 
     suspend fun sendPushNotification(bearerToken: String, firebasePushNotificationDto: FirebasePushNotificationDto): Resource<FirebasePushNotificationResponse>
 

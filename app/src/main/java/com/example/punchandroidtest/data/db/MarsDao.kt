@@ -16,6 +16,6 @@ interface MarsDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertAll(marsList: List<MarsEntity>)
 
-    @Update
-    suspend fun updateDb(marsEntity: MarsEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateDb(marsEntities: List<MarsEntity>)
 }
