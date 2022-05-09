@@ -49,4 +49,8 @@ constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun refresh() {
+        fetchAPi()
+    }
+
 }

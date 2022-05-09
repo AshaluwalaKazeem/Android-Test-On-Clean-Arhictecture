@@ -16,6 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.punchandroidtest.presentation.fetch_api.components.FetchApiListItem
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun FetchApiScreen(
@@ -23,9 +25,16 @@ fun FetchApiScreen(
 ) {
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()){
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.mars) { mars ->
-                FetchApiListItem(mars)
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = viewModel.state.value.isLoading),
+            swipeEnabled = !viewModel.state.value.isLoading,
+            onRefresh = { viewModel.refresh()},
+            modifier = Modifier.fillMaxSize()
+        ) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(state.mars) { mars ->
+                    FetchApiListItem(mars)
+                }
             }
         }
         if(state.error.isNotBlank()) {

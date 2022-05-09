@@ -45,12 +45,12 @@ constructor(
             val marsList = marsBlogs.map { it.toMars() }
             Resource.Success(marsList)
         } catch (e: HttpException) {
-            Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred")
+            Resource.Error(message = e.localizedMessage ?: "An unexpected error occurred. Please swipe down to retry again")
         } catch (e: IOException) {
-            Resource.Error(message = "Couldn't reach server. Check your internet connection")
+            Resource.Error(message = "Couldn't reach server. Check your internet connection. Please swipe down to retry again")
         } catch (e: Exception) {
             Timber.d(e.fillInStackTrace())
-            Resource.Error(message = "An unexpected error occurred")
+            Resource.Error(message = "An unexpected error occurred. Please swipe down to retry again")
         }
     }
 
@@ -69,12 +69,12 @@ constructor(
         try {
             val marsList = marsDao.get().map { it.toMars() }
             if (marsList.isNullOrEmpty()) {
-                return Resource.Error("No records found in db. Please swipe to refresh")
+                return Resource.Error("No records found in db. Please swipe down to retry again")
             }
             return Resource.Success(marsDao.get().map { it.toMars() }.toMutableStateList())
         } catch (e: Exception) {
             Timber.d(e.fillInStackTrace())
-            return Resource.Error("An unexpected error occurred. Please swipe to refresh")
+            return Resource.Error("An unexpected error occurred. Please swipe down to retry again")
         }
     }
 
