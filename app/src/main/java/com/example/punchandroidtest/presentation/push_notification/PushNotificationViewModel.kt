@@ -63,12 +63,21 @@ constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun queryUriName(uri: Uri, context: Context): String {
+    fun queryFileName(uri: Uri, context: Context): String {
         val returnCursor: Cursor = context.contentResolver.query(uri, null, null, null, null)!!
         val nameIndex: Int = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
         returnCursor.moveToFirst()
         val name: String = returnCursor.getString(nameIndex)
         returnCursor.close()
         return name
+    }
+
+    fun queryFileSize(uri: Uri, context: Context): Long {
+        val returnCursor: Cursor = context.contentResolver.query(uri, null, null, null, null)!!
+        val sizeIndex: Int = returnCursor.getColumnIndex(OpenableColumns.SIZE)
+        returnCursor.moveToFirst()
+        val fileSize: Long = returnCursor.getLong(sizeIndex)
+        returnCursor.close()
+        return fileSize
     }
 }

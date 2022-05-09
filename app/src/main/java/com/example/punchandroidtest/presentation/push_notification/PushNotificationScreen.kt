@@ -1,6 +1,5 @@
 package com.example.punchandroidtest.presentation.push_notification
 
-import android.app.Activity
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -9,13 +8,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CloudUpload
 import androidx.compose.material.icons.rounded.Description
-import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material.icons.rounded.Title
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,9 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.punchandroidtest.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import com.example.punchandroidtest.presentation.push_notification.components.OutlinedEditText
 import com.example.punchandroidtest.presentation.ui.theme.ColorPrimaryDark
 import com.example.punchandroidtest.presentation.ui.theme.Yellow500
@@ -54,7 +47,13 @@ fun PushNotificationScreen(
     val launcher = rememberLauncherForActivityResult(contract =
     ActivityResultContracts.GetContent()) { uri: Uri? ->
         imageUri = uri
-        if(imageUri != null) selectedImageName = viewModel.queryUriName(imageUri!!, context)
+        if(imageUri != null){
+            selectedImageName = viewModel.queryFileName(imageUri!!, context)
+            if(viewModel.queryFileSize(uri!!, context) > 1600000) {
+                imageUri = null
+                Toast.makeText(context, "Image size too big, You can only select image less than or equals to 1.5mb", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {

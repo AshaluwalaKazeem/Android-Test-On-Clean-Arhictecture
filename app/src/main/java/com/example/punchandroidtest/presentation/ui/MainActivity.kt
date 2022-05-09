@@ -20,6 +20,8 @@ import timber.log.Timber
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // I will be using Jetpack Compose (Android modern toolkit for building native UI) to design the UI for this app since it simplifies and accelerates UI development on Android and its a new tool supported and embraced by Google.
         setContent {
             PunchAndroidTestTheme {
                 // A surface container using the 'background' color from the theme
