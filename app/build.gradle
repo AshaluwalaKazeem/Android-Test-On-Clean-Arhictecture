@@ -100,6 +100,8 @@ dependencies {
 
     // ACCOMPANIST PLACEHOLDER
     implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist_version"
+    // ACCOMPANIST SWIPE REFRESH
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.3.1')

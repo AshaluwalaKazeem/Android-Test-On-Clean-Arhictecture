@@ -66,11 +66,15 @@ constructor(
     }
 
     override suspend fun loadFromDb(): Resource<SnapshotStateList<Mars>> {
-        return try {
-            Resource.Success(marsDao.get().map { it.toMars() }.toMutableStateList())
+        try {
+            val marsList = marsDao.get().map { it.toMars() }
+            if (marsList.isNullOrEmpty()) {
+                return Resource.Error("No records found in db. Please swipe to refresh")
+            }
+            return Resource.Success(marsDao.get().map { it.toMars() }.toMutableStateList())
         } catch (e: Exception) {
             Timber.d(e.fillInStackTrace())
-            Resource.Error("An unexpected error occurred")
+            return Resource.Error("An unexpected error occurred. Please swipe to refresh")
         }
     }
 

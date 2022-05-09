@@ -57,4 +57,8 @@ constructor(
 
             }.launchIn(viewModelScope)
     }
+
+    fun refresh() {
+        fetchDb()
+    }
 }
