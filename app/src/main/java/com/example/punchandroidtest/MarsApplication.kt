@@ -1,9 +1,6 @@
 package com.example.punchandroidtest
 
-import android.R
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import coil.ImageLoader
 import com.example.punchandroidtest.common.Constants
 import com.example.punchandroidtest.common.ResponseHeaderInterceptor

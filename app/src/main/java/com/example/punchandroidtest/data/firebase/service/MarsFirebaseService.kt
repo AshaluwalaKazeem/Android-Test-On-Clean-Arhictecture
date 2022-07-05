@@ -106,7 +106,7 @@ class MarsFirebaseService : FirebaseMessagingService() {
         if(intent != null) {
             val stackBuilder = TaskStackBuilder.create(context)
             stackBuilder.addNextIntent(intent)
-            val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            val pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
             builder.setContentIntent(pendingIntent)
         }
 

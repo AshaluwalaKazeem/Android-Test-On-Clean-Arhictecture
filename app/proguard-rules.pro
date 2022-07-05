@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep public class com.google.** {*;}
+
+-keep public class com.google.firebase.messaging.TopicOperation
+-dontwarn javax.lang.model.element.Modifier
+-dontwarn  com.google.firebase.messaging.TopicOperation
+-dontwarn com.squareup.okhttp.**
